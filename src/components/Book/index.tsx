@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import { faUser, faCog, faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 
 import {
   Container,
@@ -8,26 +9,25 @@ import {
   BookContainer,
   Content,
   ContainerAction,
+  ActionIcon,
 } from "./styles";
 
 interface BookProps {
   title: string;
   imageUri: string;
+  showDialog: () => void;
 }
 
-const Book: React.FC<BookProps> = ({ title, imageUri }) => {
+const Book: React.FC<BookProps> = ({ title, imageUri, showDialog }) => {
   return (
     <Container>
       <ContainerActionArea>
-        <BookContainer image={imageUri} title="Contemplative Reptile" />
+        <BookContainer image={imageUri} title={title} />
       </ContainerActionArea>
       <ContainerAction>
-        <Button size="small" color="primary">
-          Share
-        </Button>
-        <Button size="small" color="primary">
-          Learn More
-        </Button>
+        <a onClick={showDialog}>
+          <ActionIcon icon={faEllipsisV} />
+        </a>
       </ContainerAction>
     </Container>
   );

@@ -15,4 +15,5 @@ export const TitleContainer = styled.span`
 export const BookContainerView = styled.div`
   display: flex;
   flex: 1;
+  margin-top: 10px;
 `;

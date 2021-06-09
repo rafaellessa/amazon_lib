@@ -8,9 +8,10 @@ import { BookContainerView, Container, TitleContainer } from "./styles";
 interface ShelfProps {
   books: Book[];
   title: string;
+  showDialog: () => void;
 }
 
-const Shelf: React.FC<ShelfProps> = ({ books, title }) => {
+const Shelf: React.FC<ShelfProps> = ({ books, title, showDialog }) => {
   useEffect(() => {
     console.log("Montou");
   }, []);
@@ -32,6 +33,7 @@ const Shelf: React.FC<ShelfProps> = ({ books, title }) => {
       <BookContainerView>
         {books.map((book) => (
           <BookContainer
+            showDialog={showDialog}
             key={book.id}
             title={book.title}
             imageUri={book.imageLinks.smallThumbnail}

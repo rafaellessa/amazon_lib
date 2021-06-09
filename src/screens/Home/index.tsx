@@ -6,11 +6,15 @@ import Header from "../../components/Header";
 import { Book } from "../../models/Book";
 import { Shelf } from "../../models/Shelf";
 import ShelfContainer from "../../components/Shelf";
+import Dialog from "../../components/Dialog";
 import { factoryShelf } from "./models";
 
 const Home: React.FC = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const [shelfs, setShelfs] = useState<Shelf[]>();
+  const [showDialog, setShowDialog] = useState(false);
+  const [selectedValue, setSelectedValue] = useState("");
+
   useEffect(() => {
     fetchBooks();
   }, []);
@@ -22,6 +26,14 @@ const Home: React.FC = () => {
   useEffect(() => {
     console.log("Shelfs no effect: ", shelfs);
   }, [shelfs]);
+
+  function handleShowDialog() {
+    setShowDialog(true);
+  }
+
+  function handleClose(value: string) {
+    setShowDialog(false);
+  }
 
   async function fetchBooks() {
     setBooks(await getAll());
@@ -49,6 +61,7 @@ const Home: React.FC = () => {
         <section key={shelf.title}>
           <ContainerView>
             <ShelfContainer
+              showDialog={handleShowDialog}
               key={shelf.title}
               title={shelf.title}
               books={shelf.books}
@@ -56,6 +69,11 @@ const Home: React.FC = () => {
           </ContainerView>
         </section>
       ))}
+      <Dialog
+        open={showDialog}
+        onClose={handleClose}
+        selectedValue={selectedValue}
+      />
     </ContainerFluid>
   );
 };
