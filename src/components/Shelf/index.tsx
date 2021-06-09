@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import { Book } from "../../models/Book";
 import { ShelfBooks } from "../../screens/Home/models";
+import BookContainer from "../../components/Book";
 
-import { Container, TitleContainer } from "./styles";
+import { BookContainerView, Container, TitleContainer } from "./styles";
 
 interface ShelfProps {
   books: Book[];
@@ -28,9 +29,15 @@ const Shelf: React.FC<ShelfProps> = ({ books, title }) => {
   return (
     <Container>
       <TitleContainer>{translateTitle(title)}</TitleContainer>
-      {books.map((book) => (
-        <p key={book.id}>{book.title}</p>
-      ))}
+      <BookContainerView>
+        {books.map((book) => (
+          <BookContainer
+            key={book.id}
+            title={book.title}
+            imageUri={book.imageLinks.smallThumbnail}
+          ></BookContainer>
+        ))}
+      </BookContainerView>
     </Container>
   );
 };
