@@ -1,31 +1,33 @@
+import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+import { Book as IBook } from "../../models/Book";
 import React from "react";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import { faUser, faCog, faEllipsisV } from "@fortawesome/free-solid-svg-icons";
-
 import {
-  Container,
-  ContainerActionArea,
-  BookContainer,
-  Content,
-  ContainerAction,
   ActionIcon,
+  BookContainer,
+  Container,
+  ContainerAction,
+  ContainerActionArea,
 } from "./styles";
 
 interface BookProps {
-  title: string;
-  imageUri: string;
+  book: IBook;
   showDialog: () => void;
+  selectedBook: (book: IBook) => void;
 }
 
-const Book: React.FC<BookProps> = ({ title, imageUri, showDialog }) => {
+const Book: React.FC<BookProps> = ({ book, showDialog, selectedBook }) => {
   return (
     <Container>
       <ContainerActionArea>
-        <BookContainer image={imageUri} title={title} />
+        <BookContainer image={book.imageLinks.thumbnail} title={book.title} />
       </ContainerActionArea>
       <ContainerAction>
-        <a onClick={showDialog}>
+        <a
+          onClick={() => {
+            selectedBook(book);
+            showDialog();
+          }}
+        >
           <ActionIcon icon={faEllipsisV} />
         </a>
       </ContainerAction>

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Book } from "../../models/Book";
-import { ShelfBooks } from "../../screens/Home/models";
+import { translateTitle } from "../../utils/util";
 import BookContainer from "../../components/Book";
 
 import { BookContainerView, Container, TitleContainer } from "./styles";
@@ -9,23 +9,18 @@ interface ShelfProps {
   books: Book[];
   title: string;
   showDialog: () => void;
+  selectedBook: (book: Book) => void;
 }
 
-const Shelf: React.FC<ShelfProps> = ({ books, title, showDialog }) => {
+const Shelf: React.FC<ShelfProps> = ({
+  books,
+  title,
+  showDialog,
+  selectedBook,
+}) => {
   useEffect(() => {
     console.log("Montou");
   }, []);
-
-  const translateTitle = (title: string) => {
-    switch (title) {
-      case ShelfBooks.CURRENTLY_READING:
-        return "Lendo";
-      case ShelfBooks.READ:
-        return "Lidos";
-      case ShelfBooks.WANT_TO_READ:
-        return "Lista de desejos";
-    }
-  };
 
   return (
     <Container>
@@ -34,9 +29,8 @@ const Shelf: React.FC<ShelfProps> = ({ books, title, showDialog }) => {
         {books.map((book) => (
           <BookContainer
             showDialog={showDialog}
-            key={book.id}
-            title={book.title}
-            imageUri={book.imageLinks.smallThumbnail}
+            book={book}
+            selectedBook={selectedBook}
           ></BookContainer>
         ))}
       </BookContainerView>

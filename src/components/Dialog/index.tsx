@@ -1,32 +1,17 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import Avatar from "@material-ui/core/Avatar";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import { faBook } from "@fortawesome/free-solid-svg-icons";
 import ListItemText from "@material-ui/core/ListItemText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-// import Dialog from "@material-ui/core/Dialog";
-import PersonIcon from "@material-ui/icons/Person";
-import AddIcon from "@material-ui/icons/Add";
-import Typography from "@material-ui/core/Typography";
-import { blue } from "@material-ui/core/colors";
-
+import React from "react";
+import { factoryShelf } from "../../screens/Home/models";
+import { translateTitle } from "../../utils/util";
 import {
   Container,
-  ContainerTitle,
-  ContainerList,
+  ContainerIcon,
   ContainerItem,
+  ContainerList,
+  ContainerTitle,
+  ListShelfIcon,
+  ShelfIcon,
 } from "./styles";
-
-const emails = ["username@gmail.com", "user02@gmail.com"];
-const useStyles = makeStyles({
-  avatar: {
-    backgroundColor: blue[100],
-    color: blue[600],
-  },
-});
 
 export interface SimpleDialogProps {
   open: boolean;
@@ -39,13 +24,14 @@ const Dialog: React.FC<SimpleDialogProps> = ({
   selectedValue,
   onClose,
 }) => {
-  const classes = useStyles();
+  const shelfs = factoryShelf();
 
   const handleClose = () => {
     onClose(selectedValue);
   };
 
   const handleListItemClick = (value: string) => {
+    console.log("Shelf clicado", value);
     onClose(value);
   };
 
@@ -56,67 +42,26 @@ const Dialog: React.FC<SimpleDialogProps> = ({
       open={open}
     >
       <ContainerTitle id="simple-dialog-title">
-        Set backup account
+        Deseja mover pra qual pratileira?
       </ContainerTitle>
       <ContainerList>
-        {emails.map((email) => (
+        {Object.values(shelfs).map((shelf) => (
           <ContainerItem
             button
-            onClick={() => handleListItemClick(email)}
-            key={email}
+            onClick={() => handleListItemClick(shelf)}
+            key={shelf}
           >
-            <ListItemAvatar>
-              <Avatar className={classes.avatar}>
-                <PersonIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary={email} />
+            <ListShelfIcon>
+              <ContainerIcon>
+                <ShelfIcon icon={faBook} />
+              </ContainerIcon>
+            </ListShelfIcon>
+            <ListItemText primary={translateTitle(shelf)} />
           </ContainerItem>
         ))}
-        <ContainerItem
-          autoFocus
-          button
-          onClick={() => handleListItemClick("addAccount")}
-        >
-          <ListItemAvatar>
-            <Avatar>
-              <AddIcon />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText primary="Add account" />
-        </ContainerItem>
       </ContainerList>
     </Container>
   );
 };
 
 export default Dialog;
-
-// export default function SimpleDialogDemo() {
-//   const [open, setOpen] = React.useState(false);
-//   const [selectedValue, setSelectedValue] = React.useState(emails[1]);
-
-//   const handleClickOpen = () => {
-//     setOpen(true);
-//   };
-
-//   const handleClose = (value: string) => {
-//     setOpen(false);
-//     setSelectedValue(value);
-//   };
-
-//   return (
-//     <div>
-//       <Typography variant="subtitle1">Selected: {selectedValue}</Typography>
-//       <br />
-//       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-//         Open simple dialog
-//       </Button>
-//       <SimpleDialog
-//         selectedValue={selectedValue}
-//         open={open}
-//         onClose={handleClose}
-//       />
-//     </div>
-//   );
-// }
